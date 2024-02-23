@@ -1,6 +1,6 @@
 openapi: '3.0.2'
 info:
-  title: Cruddur Backend API
+  title: Crudchat Backend API
   version: '1.0'
     
 servers:
@@ -125,6 +125,21 @@ paths:
                 type: object
                 items:
                   $ref: '#/components/schemas/Message'
+  /api/activities/notifications:
+    get:
+      description: 'Return a feed of activity for all of those I follow'
+      tags:
+        - activities
+      parameters: []
+      responses:
+        '200':
+          description: Return an array of activities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
   /api/messages:
     post:
       description: 'Create a direct message between two users'
@@ -159,10 +174,10 @@ components:
           example: 0056a369-4618-43a4-ad88-e7c371bf5582
         display_name:
           type: string
-          example: "Andrew Brown"
+          example: "Samir Singh"
         handle:
           type: string
-          example: "andrewbrown"
+          example: "samirsingh"
         message:
           type: string
           example: "Who likes pineapple on their pizza?"
@@ -192,7 +207,7 @@ components:
           example: 0056a369-4618-43a4-ad88-e7c371bf5582
         handle:
           type: string
-          example: "andrewbrown"
+          example: "samirsingh"
         message:
           type: string
           example: "Who likes pineapple on their pizza?"
@@ -217,10 +232,10 @@ components:
           example: 0056a369-4618-43a4-ad88-e7c371bf5582
         display_name:
           type: string
-          example: "Andrew Brown"
+          example: "Samir Singh"
         handle:
           type: string
-          example: "andrewbrown"
+          example: "samirsingh"
         message:
           type: string
           example: "Who likes pineapple on their pizza?"

@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  backend-flask:
+    build:
+      context: ./backend-flask
+      dockerfile: Dockerfile
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    ports:
+      - 4567:4567
+    volumes:
+      - ./backend-flask:/backend-flask
+    networks:
+      - crudchat-connect
+  
+  frontend-react-js:
+    build:
+      context: ./frontend-react-js
+      dockerfile: Dockerfile
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+    networks:
+      - crudchat-connect
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - crudchat-connect
+
+  dynamodb-local:
+    user: root
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - 8000:8000
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+    networks:
+      - crudchat-connect
+
+networks:
+  crudchat-connect:
+    driver: bridge
+    name: crudchat-connect
+
+volumes:
+  db:
+    driver: local
