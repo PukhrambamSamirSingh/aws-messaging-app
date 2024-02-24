@@ -1,0 +1,4 @@
+#! /usr/bin/bash
+
+cd frontend-react-js
+npm i

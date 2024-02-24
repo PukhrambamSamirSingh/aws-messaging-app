@@ -1,0 +1,10 @@
+#! /usr/bin/bash
+
+ABS_PATH=$(readlink -f "$0")
+echo $ABS_PATH
+DIR_PATH=$(dirname $ABS_PATH)
+echo $DIR_PATH
+
+source "$DIR_PATH/frontend"
+source "$DIR_PATH/backend"
+source "$DIR_PATH/postgres"
