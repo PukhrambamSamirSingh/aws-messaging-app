@@ -11,11 +11,12 @@
     "customizations": {
        "vscode": {
          "extensions": [
-           "ms-azuretools.vscode-docker",
-           "AmazonWebServices.aws-toolkit-vscode",
-           "ms-python.python"
-         ]
+            "ms-azuretools.vscode-docker",
+            "AmazonWebServices.aws-toolkit-vscode",
+            "ms-python.python",
+            "42Crunch.vscode-openapi"
+        ]
        }
     },
-    "postCreateCommand": "cd /workspaces/${localWorkspaceFolderBasename} && ./startbash/setup"
+    "postCreateCommand": "cd /workspaces/${localWorkspaceFolderBasename} && ./install/setup"
 }
