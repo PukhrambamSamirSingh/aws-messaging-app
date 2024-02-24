@@ -14,6 +14,7 @@ import {
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
+import NotificationsFeedPage from './pages/NotificationsFeedPage';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "/forgot",
     element: <RecoverPage />
+  },
+  {
+    path:"/notifications",
+    element: <NotificationsFeedPage/>
   }
 ]);
 
