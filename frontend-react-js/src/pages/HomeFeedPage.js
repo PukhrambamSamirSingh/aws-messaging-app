@@ -6,9 +6,10 @@ import DesktopSidebar     from '../components/DesktopSidebar';
 import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
-
-// [TODO] Authenication
-import Cookies from 'js-cookie'
+import {
+  fetchAuthSession,
+  getCurrentUser
+} from 'aws-amplify/auth';
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -36,15 +37,20 @@ export default function HomeFeedPage() {
   };
 
   const checkAuth = async () => {
-    console.log('checkAuth')
-    // [TODO] Authenication
-    if (Cookies.get('user.logged_in')) {
+    fetchAuthSession()
+    .then(user=>{
+        console.log('user', user)
+        return fetchAuthSession()
+    }).then((cognito_user)=>{
+      console.log('cognito_user',cognito_user);
       setUser({
-        display_name: Cookies.get('user.name'),
-        handle: Cookies.get('user.username')
+        cognito_user_uuid: cognito_user.sub,
+        display_name: cognito_user.name,
+        handle: cognito_user.preferred_username
       })
+    })
+    .catch((err)=>console.log(err))
     }
-  };
 
   React.useEffect(()=>{
     //prevents double call
