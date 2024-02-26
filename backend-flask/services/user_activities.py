@@ -34,8 +34,4 @@ class UserActivities:
     # Add metadata or annotation here if necessary
     segment.put_metadata('key', dict, 'namespace')
     subsegment.put_annotation('key', 'value')
-    xray_recorder.end_subsegment()
-
-    # Close the segment
-    xray_recorder.end_segment()
     return model

@@ -16,11 +16,11 @@ export default function SigninPage() {
     console.log('email', email);
     console.log('password', password);
     try {
-      const { isSignedIn, nextStep } = await signIn({
+      const user = await signIn({
         username: email,
         password
       })
-      console.log(isSignedIn, nextStep);
+      localStorage.setItem('access_token', JSON.stringify(user))
       window.location.href="/"
     } catch (error) {
       if (error.code === 'UserNotConfirmedException') {
@@ -53,7 +53,7 @@ export default function SigninPage() {
           className='signin_form'
           onSubmit={onsubmit}
         >
-          <h2>Sign into your Cruddur account</h2>
+          <h2>Sign into your Crudchat account</h2>
           <div className='fields'>
             <div className='field text_field username'>
               <label>Email</label>

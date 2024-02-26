@@ -8,6 +8,7 @@ import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 import {
   fetchAuthSession,
+  fetchUserAttributes ,
   getCurrentUser
 } from 'aws-amplify/auth';
 
@@ -23,7 +24,10 @@ export default function HomeFeedPage() {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
       const res = await fetch(backend_url, {
-        method: "GET"
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+        }
       });
       let resJson = await res.json();
       if (res.status === 200) {
@@ -37,20 +41,28 @@ export default function HomeFeedPage() {
   };
 
   const checkAuth = async () => {
-    fetchAuthSession()
+    async function currentSession() {
+      try {
+        // const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
+        // console.log(accessToken, idToken);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    currentSession()
+    fetchUserAttributes ()
     .then(user=>{
         console.log('user', user)
-        return fetchAuthSession()
+        return fetchUserAttributes ()
     }).then((cognito_user)=>{
-      console.log('cognito_user',cognito_user);
+      console.log('cognito_user', cognito_user);
       setUser({
-        cognito_user_uuid: cognito_user.sub,
         display_name: cognito_user.name,
         handle: cognito_user.preferred_username
       })
     })
     .catch((err)=>console.log(err))
-    }
+  }
 
   React.useEffect(()=>{
     //prevents double call
